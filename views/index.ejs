@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tic Tac Toe</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+  <h1>Tic Tac Toe</h1>
+  <p>Welcome to Tic Tac Toe</p>
+
+  <div ng-app="tictactoe">
+    <div ng-controller="GameCtrl as game">
+
+      <h2>Game Board</h2>
+
+      <button ng-if="!game.IsOn && game.CanStart()" ng-click="game.Start()">Play</button>
+
+      <span ng-if="game.IsOn">It is {{ game.GetCurrentPlayer().Name }}'s turn</span>
+
+      <table ng-controller="GridCtrl as grid">
+        <tr ng-repeat="row in grid.Cells">
+          <td ng-repeat="cell in row">
+            <a href="#" ng-click="grid.ClickedCell(cell)" ng-style="grid.Style[cell - 1]">{{ cell }}</a>
+          </td>
+        </tr>
+      </table>
+
+      <h2>Players</h2>
+
+      <h3>Current Players</h3>
+      <ul class="players">
+        <li ng-repeat="player in game.Players"><span class="icon" ng-style="player.Style"></span> {{ player.Name }}</li>
+      </ul>
+
+      <div ng-if="!game.IsOn">
+        <h3>Create New</h3>
+        <form ng-submit="game.CreatePlayer()">
+          <label for="name">Name</label>
+          <input name="name" type="text" ng-model="game.NewPlayer.name">
+          <label for="color">Color</label>
+          <input name="color" type="text" ng-model="game.NewPlayer.color">
+          <button type="submit">Create Player</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript" src="/components/angularjs/angular.js"></script>
+  <script type="text/javascript" src="/javascripts/app.js"></script>
+</body>
+</html>
